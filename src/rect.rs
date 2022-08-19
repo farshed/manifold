@@ -1,16 +1,16 @@
-use crate::{Circle, Point, Size};
+use crate::{Circle, Numeric, Point2, Size};
 
-pub struct Rect {
-    pub left: f32,
-    pub top: f32,
-    pub right: f32,
-    pub bottom: f32,
+pub struct Rect<N: Numeric> {
+    pub left: N,
+    pub top: N,
+    pub right: N,
+    pub bottom: N,
 }
 
-impl Rect {
-    pub const ZERO: Self = Self::new(0., 0., 0., 0.);
+impl<N: Numeric> Rect<N> {
+    pub const ZERO: Self = Self::splat(N::ZERO);
 
-    pub const fn new(left: f32, top: f32, right: f32, bottom: f32) -> Self {
+    pub const fn new(left: N, top: N, right: N, bottom: N) -> Self {
         Self {
             left,
             top,
@@ -19,19 +19,19 @@ impl Rect {
         }
     }
 
-    pub fn from_center(center: Point, size: Size) -> Self {
-        let Point { x, y } = center;
+    pub fn from_center(center: Point2<N>, size: Size<N>) -> Self {
+        let Point2 { x, y } = center;
         let Size { width, height } = size.scale(0.5);
         Self::new(x - width, y - height, x + width, y + height)
     }
 
-    pub fn from_origin(origin: Point, size: Size) -> Self {
-        let Point { x, y } = origin;
+    pub fn from_origin(origin: Point2<N>, size: Size<N>) -> Self {
+        let Point2 { x, y } = origin;
         let Size { width, height } = size;
         Self::new(x, y, x + width, y + height)
     }
 
-    pub fn from_points(p0: Point, p1: Point) -> Self {
+    pub fn from_point2s(p0: Point2<N>, p1: Point2<N>) -> Self {
         Self::new(
             p0.x.min(p1.x),
             p0.y.min(p1.y),
@@ -40,47 +40,51 @@ impl Rect {
         )
     }
 
-    pub fn from_circle(circle: Circle) -> Self {
-        let diameter = circle.radius * 2.0;
+    pub fn from_circle(circle: Circle<N>) -> Self {
+        let diameter = circle.radius * 2.0.into();
         Self::from_center(circle.center, Size::new(diameter, diameter))
     }
 
-    pub fn min_x(&self) -> f32 {
+    pub const fn splat(v: N) -> Self {
+        Self::new(v, v, v, v)
+    }
+
+    pub fn min_x(&self) -> N {
         self.left.min(self.right)
     }
 
-    pub fn max_x(&self) -> f32 {
+    pub fn max_x(&self) -> N {
         self.left.max(self.right)
     }
 
-    pub fn min_y(&self) -> f32 {
+    pub fn min_y(&self) -> N {
         self.top.min(self.bottom)
     }
 
-    pub fn max_y(&self) -> f32 {
+    pub fn max_y(&self) -> N {
         self.top.max(self.bottom)
     }
 
-    pub fn origin(&self) -> Point {
-        Point::new(self.left, self.top)
+    pub fn origin(&self) -> Point2<N> {
+        Point2::new(self.left, self.top)
     }
 
-    pub fn center(&self) -> Point {
-        Point::new(
-            (self.left + self.right) * 0.5,
-            (self.top + self.bottom) * 0.5,
+    pub fn center(&self) -> Point2<N> {
+        Point2::new(
+            (self.left + self.right) * 0.5.into(),
+            (self.top + self.bottom) * 0.5.into(),
         )
     }
 
-    pub fn area(&self) -> f32 {
+    pub fn area(&self) -> N {
         self.size().area()
     }
 
-    pub fn size(&self) -> Size {
+    pub fn size(&self) -> Size<N> {
         Size::new(self.max_x() - self.min_x(), self.max_y() - self.min_y())
     }
 
-    pub fn aspect_ratio(&self) -> f32 {
+    pub fn aspect_ratio(&self) -> N {
         self.size().aspect_ratio()
     }
 
@@ -88,8 +92,8 @@ impl Rect {
         self.size().is_empty()
     }
 
-    pub fn contains(&self, point: Point) -> bool {
-        let Point { x, y } = point;
+    pub fn contains(&self, point2: Point2<N>) -> bool {
+        let Point2 { x, y } = point2;
         x >= self.left && x < self.right && y >= self.top && y < self.bottom
     }
 
@@ -97,7 +101,7 @@ impl Rect {
         Self::new(self.min_x(), self.min_y(), self.max_x(), self.max_y())
     }
 
-    pub fn scale(&self, factor: f32) -> Self {
+    pub fn scale(&self, factor: N) -> Self {
         Self::from_origin(self.origin(), self.size().scale(factor))
     }
 
@@ -111,7 +115,7 @@ impl Rect {
         None
     }
 
-    pub fn inflate(&self, width: f32, height: f32) -> Self {
+    pub fn inflate(&self, width: N, height: N) -> Self {
         Self::new(
             self.left - width,
             self.top - height,
@@ -120,7 +124,7 @@ impl Rect {
         )
     }
 
-    pub fn deflate(&self, width: f32, height: f32) -> Self {
+    pub fn deflate(&self, width: N, height: N) -> Self {
         self.inflate(-width, -height)
     }
 
