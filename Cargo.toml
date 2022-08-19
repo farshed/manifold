@@ -1,0 +1,14 @@
+[package]
+name = "manifold"
+version = "0.1.0"
+description = "2D & 3D geometry primitives for Rust"
+edition = "2021"
+license = "MIT"
+authors = ["Faisal Arshed <faisalarshed28@gmail.com>"]
+homepage = "https://github.com/farshed/manifold"
+repository = "https://github.com/farshed/manifold"
+readme = "README.md"
+keywords = ["graphics", "geometry", "gamedev", "3D", "wgpu",]
+# categories = ["command-line-utilities", "development-tools::cargo-plugins"]
+
+[dependencies]
