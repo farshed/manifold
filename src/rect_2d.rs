@@ -1,13 +1,13 @@
-use crate::{Circle, Point2, Size2};
+use crate::{Circle2D, Point2D, Size2D};
 
-pub struct Rect {
+pub struct Rect2D {
     pub left: f32,
     pub top: f32,
     pub right: f32,
     pub bottom: f32,
 }
 
-impl Rect {
+impl Rect2D {
     pub const ZERO: Self = Self::splat(0.);
 
     pub const fn new(left: f32, top: f32, right: f32, bottom: f32) -> Self {
@@ -19,19 +19,19 @@ impl Rect {
         }
     }
 
-    pub fn from_center(center: Point2, size: Size2) -> Self {
-        let Point2 { x, y } = center;
-        let Size2 { width, height } = size.scale(0.5);
+    pub fn from_center(center: Point2D, size: Size2D) -> Self {
+        let Point2D { x, y } = center;
+        let Size2D { width, height } = size.scale(0.5);
         Self::new(x - width, y - height, x + width, y + height)
     }
 
-    pub fn from_origin(origin: Point2, size: Size2) -> Self {
-        let Point2 { x, y } = origin;
-        let Size2 { width, height } = size;
+    pub fn from_origin(origin: Point2D, size: Size2D) -> Self {
+        let Point2D { x, y } = origin;
+        let Size2D { width, height } = size;
         Self::new(x, y, x + width, y + height)
     }
 
-    pub fn from_points(p0: Point2, p1: Point2) -> Self {
+    pub fn from_points(p0: Point2D, p1: Point2D) -> Self {
         Self::new(
             p0.x.min(p1.x),
             p0.y.min(p1.y),
@@ -40,9 +40,9 @@ impl Rect {
         )
     }
 
-    pub fn from_circle(circle: Circle) -> Self {
+    pub fn from_circle(circle: Circle2D) -> Self {
         let diameter = 2. * circle.radius;
-        Self::from_center(circle.center, Size2::new(diameter, diameter))
+        Self::from_center(circle.center, Size2D::new(diameter, diameter))
     }
 
     pub const fn splat(v: f32) -> Self {
@@ -65,12 +65,12 @@ impl Rect {
         self.top.max(self.bottom)
     }
 
-    pub fn origin(&self) -> Point2 {
-        Point2::new(self.left, self.top)
+    pub fn origin(&self) -> Point2D {
+        Point2D::new(self.left, self.top)
     }
 
-    pub fn center(&self) -> Point2 {
-        Point2::new(
+    pub fn center(&self) -> Point2D {
+        Point2D::new(
             (self.left + self.right) * 0.5,
             (self.top + self.bottom) * 0.5,
         )
@@ -80,8 +80,8 @@ impl Rect {
         self.size().area()
     }
 
-    pub fn size(&self) -> Size2 {
-        Size2::new(self.max_x() - self.min_x(), self.max_y() - self.min_y())
+    pub fn size(&self) -> Size2D {
+        Size2D::new(self.max_x() - self.min_x(), self.max_y() - self.min_y())
     }
 
     pub fn aspect_ratio(&self) -> f32 {
@@ -92,8 +92,8 @@ impl Rect {
         self.size().is_empty()
     }
 
-    pub fn contains(&self, point: Point2) -> bool {
-        let Point2 { x, y } = point;
+    pub fn contains(&self, point: Point2D) -> bool {
+        let Point2D { x, y } = point;
         x >= self.min_x() && x < self.max_x() && y >= self.min_y() && y < self.max_y()
     }
 

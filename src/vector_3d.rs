@@ -1,12 +1,12 @@
-use crate::Point3;
+use crate::Point3D;
 
-pub struct Vec3 {
+pub struct Vector3D {
     pub x: f32,
     pub y: f32,
     pub z: f32,
 }
 
-impl Vec3 {
+impl Vector3D {
     pub const ZERO: Self = Self::new(0., 0., 0.);
 
     #[inline]
