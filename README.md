@@ -1,3 +1,3 @@
 # Manifold
 
-Manifold provides immutable, efficient and robust geometry primitives. Currently a WIP.
+Manifold provides efficient and immutable 2D geometry primitives. Currently a WIP.

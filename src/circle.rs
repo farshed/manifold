@@ -1,12 +1,12 @@
-use crate::{Numeric, Point2};
+use crate::Point2;
 
-pub struct Circle<N: Numeric> {
-    pub center: Point2<N>,
-    pub radius: N,
+pub struct Circle {
+    pub center: Point2,
+    pub radius: f32,
 }
 
-impl<N: Numeric> Circle<N> {
-    pub const fn new(center: Point2<N>, radius: N) -> Self {
+impl Circle {
+    pub const fn new(center: Point2, radius: f32) -> Self {
         Self { center, radius }
     }
 }

@@ -1,14 +1,14 @@
-use crate::{Numeric, Point2};
+use crate::Point2;
 
-pub struct Quad<N: Numeric> {
-    pub x: Point2<N>,
-    pub y: Point2<N>,
-    pub z: Point2<N>,
-    pub w: Point2<N>,
+pub struct Quad {
+    pub x: Point2,
+    pub y: Point2,
+    pub z: Point2,
+    pub w: Point2,
 }
 
-impl<N: Numeric> Quad<N> {
-    pub const fn new(x: Point2<N>, y: Point2<N>, z: Point2<N>, w: Point2<N>) -> Self {
+impl Quad {
+    pub const fn new(x: Point2, y: Point2, z: Point2, w: Point2) -> Self {
         Self { x, y, z, w }
     }
 }
