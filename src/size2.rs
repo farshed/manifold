@@ -1,9 +1,9 @@
-pub struct Size2D {
+pub struct Size2 {
     pub width: f32,
     pub height: f32,
 }
 
-impl Size2D {
+impl Size2 {
     pub const ZERO: Self = Self::splat(0.);
 
     pub const fn new(width: f32, height: f32) -> Self {

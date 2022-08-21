@@ -1,8 +1,8 @@
-use crate::{Point2D, Rect2D, Vector2D};
+use crate::{Point2, Rect2, Vector2};
 
 pub struct Line {
-    pub origin: Point2D,
-    pub direction: Vector2D,
+    pub origin: Point2,
+    pub direction: Vector2,
 }
 
 impl Line {
@@ -10,19 +10,19 @@ impl Line {
 }
 
 pub struct LineSeg {
-    pub p0: Point2D,
-    pub p1: Point2D,
+    pub p0: Point2,
+    pub p1: Point2,
 }
 
 impl LineSeg {
     #[inline]
-    pub fn sample(&self, t: f32) -> Point2D {
+    pub fn sample(&self, t: f32) -> Point2 {
         self.p0.lerp(self.p1, t)
     }
 
     #[inline]
-    pub fn bounding_rect(&self) -> Rect2D {
-        Rect2D::new(
+    pub fn bounding_rect(&self) -> Rect2 {
+        Rect2::new(
             self.p0.x.min(self.p1.x),
             self.p0.y.min(self.p1.y),
             self.p0.x.max(self.p1.x),
@@ -31,7 +31,7 @@ impl LineSeg {
     }
 
     #[inline]
-    pub fn to_vector(&self) -> Vector2D {
+    pub fn to_vector(&self) -> Vector2 {
         self.p1 - self.p0
     }
 }

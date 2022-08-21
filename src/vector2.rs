@@ -1,14 +1,14 @@
-use crate::Point2D;
+use crate::Point2;
 use std::fmt::{Display, Formatter, Result};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
-pub struct Vector2D {
+pub struct Vector2 {
     pub x: f32,
     pub y: f32,
 }
 
-impl Vector2D {
+impl Vector2 {
     pub const ZERO: Self = Self::new(0., 0.);
 
     #[inline]
@@ -53,14 +53,14 @@ impl Vector2D {
     }
 }
 
-impl From<Point2D> for Vector2D {
+impl From<Point2> for Vector2 {
     #[inline]
-    fn from(v: Point2D) -> Self {
+    fn from(v: Point2) -> Self {
         Self::new(v.x, v.y)
     }
 }
 
-impl Add for Vector2D {
+impl Add for Vector2 {
     type Output = Self;
 
     #[inline]
@@ -72,7 +72,7 @@ impl Add for Vector2D {
     }
 }
 
-impl AddAssign for Vector2D {
+impl AddAssign for Vector2 {
     #[inline]
     fn add_assign(&mut self, other: Self) {
         *self = Self {
@@ -82,7 +82,7 @@ impl AddAssign for Vector2D {
     }
 }
 
-impl Sub for Vector2D {
+impl Sub for Vector2 {
     type Output = Self;
 
     #[inline]
@@ -94,7 +94,7 @@ impl Sub for Vector2D {
     }
 }
 
-impl SubAssign for Vector2D {
+impl SubAssign for Vector2 {
     #[inline]
     fn sub_assign(&mut self, other: Self) {
         *self = Self {
@@ -104,7 +104,7 @@ impl SubAssign for Vector2D {
     }
 }
 
-impl Mul<f32> for Vector2D {
+impl Mul<f32> for Vector2 {
     type Output = Self;
 
     #[inline]
@@ -116,7 +116,7 @@ impl Mul<f32> for Vector2D {
     }
 }
 
-impl MulAssign<f32> for Vector2D {
+impl MulAssign<f32> for Vector2 {
     #[inline]
     fn mul_assign(&mut self, scalar: f32) {
         *self = Self {
@@ -126,7 +126,7 @@ impl MulAssign<f32> for Vector2D {
     }
 }
 
-impl Div<f32> for Vector2D {
+impl Div<f32> for Vector2 {
     type Output = Self;
 
     #[inline]
@@ -136,14 +136,14 @@ impl Div<f32> for Vector2D {
     }
 }
 
-impl DivAssign<f32> for Vector2D {
+impl DivAssign<f32> for Vector2 {
     #[inline]
     fn div_assign(&mut self, other: f32) {
         self.mul_assign(other.recip());
     }
 }
 
-impl Neg for Vector2D {
+impl Neg for Vector2 {
     type Output = Self;
 
     #[inline]
@@ -155,7 +155,7 @@ impl Neg for Vector2D {
     }
 }
 
-impl Display for Vector2D {
+impl Display for Vector2 {
     fn fmt(&self, formatter: &mut Formatter) -> Result {
         write!(formatter, "𝐯=<")?;
         Display::fmt(&self.x, formatter)?;

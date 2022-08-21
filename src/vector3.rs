@@ -1,12 +1,12 @@
-use crate::Point3D;
+use crate::Point3;
 
-pub struct Vector3D {
+pub struct Vector3 {
     pub x: f32,
     pub y: f32,
     pub z: f32,
 }
 
-impl Vector3D {
+impl Vector3 {
     pub const ZERO: Self = Self::new(0., 0., 0.);
 
     #[inline]
@@ -49,7 +49,7 @@ impl Vector3D {
 
     #[inline]
     pub fn lerp(&self, other: Self, t: f32) -> Self {
-        let one_t = 1. - t;
+        let one_t = 1.0 - t;
         Self::new(
             one_t * self.x + t * other.x,
             one_t * self.y + t * other.y,

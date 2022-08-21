@@ -1,12 +1,12 @@
-use crate::Point2D;
+use crate::Point2;
 
-pub struct Point3D {
+pub struct Point3 {
     pub x: f32,
     pub y: f32,
     pub z: f32,
 }
 
-impl Point3D {
+impl Point3 {
     pub const ORIGIN: Self = Self::splat(0.);
 
     #[inline]
@@ -20,8 +20,8 @@ impl Point3D {
     }
 
     #[inline]
-    pub const fn to_2d(&self) -> Point2D {
-        Point2D::new(self.x, self.y)
+    pub const fn to_2d(&self) -> Point2 {
+        Point2::new(self.x, self.y)
     }
 
     #[inline]

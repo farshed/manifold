@@ -1,17 +1,18 @@
-use crate::{Point3D, Vector2D};
+use crate::{Point3, Vector2};
+use std::cmp::PartialOrd;
 use std::fmt::{Display, Formatter, Result};
 use std::ops::{Add, AddAssign, Sub};
 
-/// A point in 2D space
-#[derive(Copy, Clone, Default, PartialEq)]
-pub struct Point2D {
+/// A point in 2 space
+#[derive(Copy, Clone, Default, PartialEq, PartialOrd)]
+pub struct Point2 {
     /// The x coordinate
     pub x: f32,
     /// The y coordinate
     pub y: f32,
 }
 
-impl Point2D {
+impl Point2 {
     pub const ORIGIN: Self = Self::splat(0.);
 
     #[inline]
@@ -25,8 +26,13 @@ impl Point2D {
     }
 
     #[inline]
-    pub const fn extend(&self, z: f32) -> Point3D {
-        Point3D::new(self.x, self.y, z)
+    pub const fn extend(&self, z: f32) -> Point3 {
+        Point3::new(self.x, self.y, z)
+    }
+
+    #[inline]
+    pub fn abs(&self) -> Self {
+        Self::new(self.x.abs(), self.y.abs())
     }
 
     #[inline]
@@ -36,46 +42,46 @@ impl Point2D {
     }
 }
 
-impl From<(f32, f32)> for Point2D {
+impl From<(f32, f32)> for Point2 {
     #[inline]
     fn from(v: (f32, f32)) -> Self {
-        Point2D { x: v.0, y: v.1 }
+        Point2 { x: v.0, y: v.1 }
     }
 }
 
-impl From<Vector2D> for Point2D {
+impl From<Vector2> for Point2 {
     #[inline]
-    fn from(v: Vector2D) -> Self {
-        Point2D { x: v.x, y: v.y }
+    fn from(v: Vector2) -> Self {
+        Point2 { x: v.x, y: v.y }
     }
 }
 
-impl Add<Vector2D> for Point2D {
-    type Output = Point2D;
+impl Add<Vector2> for Point2 {
+    type Output = Point2;
 
     #[inline]
-    fn add(self, other: Vector2D) -> Self {
+    fn add(self, other: Vector2) -> Self {
         Self::new(self.x + other.x, self.y + other.y)
     }
 }
 
-impl AddAssign<Vector2D> for Point2D {
+impl AddAssign<Vector2> for Point2 {
     #[inline]
-    fn add_assign(&mut self, other: Vector2D) {
+    fn add_assign(&mut self, other: Vector2) {
         *self = Self::new(self.x + other.x, self.y + other.y)
     }
 }
 
-impl Sub<Point2D> for Point2D {
-    type Output = Vector2D;
+impl Sub<Point2> for Point2 {
+    type Output = Vector2;
 
     #[inline]
-    fn sub(self, other: Self) -> Vector2D {
-        Vector2D::new(self.x - other.x, self.y - other.y)
+    fn sub(self, other: Self) -> Vector2 {
+        Vector2::new(self.x - other.x, self.y - other.y)
     }
 }
 
-impl Display for Point2D {
+impl Display for Point2 {
     fn fmt(&self, formatter: &mut Formatter) -> Result {
         write!(formatter, "𝛒=(")?;
         Display::fmt(&self.x, formatter)?;
